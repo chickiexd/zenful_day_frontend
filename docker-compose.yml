@@ -1,0 +1,13 @@
+services:
+  zenful_shopping_frontend:
+    build: .
+    container_name: zenful_shopping_frontend
+    networks:
+      - nginx_net
+      - zenful_shopping
+
+networks:
+  nginx_net:
+    external: true
+  zenful_shopping:
+    external: true

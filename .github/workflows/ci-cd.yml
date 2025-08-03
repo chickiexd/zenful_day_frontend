@@ -1,0 +1,19 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Build and Deploy Locally
+    runs-on: self-hosted
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Deploy with Docker Compose
+        run: |
+          docker compose down || true
+          docker compose up -d --build
+
