@@ -1,7 +1,7 @@
 services:
   zenful_shopping_frontend:
     build: .
-    container_name: zenful_shopping_frontend
+    container_name: zenful_day_frontend
     networks:
       - nginx_net
       - zenful_shopping
