@@ -5,9 +5,12 @@ services:
     networks:
       - nginx_net
       - zenful_shopping
+      - tunnel
 
 networks:
   nginx_net:
+    external: true
+  tunnel:
     external: true
   zenful_shopping:
     external: true
