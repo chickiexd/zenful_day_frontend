@@ -1,12 +1,23 @@
-# React + Vite
+# YouTube Feed Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React frontend application displaying grouped YouTube videos with the ability to mark videos as seen and sync videos from the server. Built with React, Redux Toolkit, and Material-UI for styling and interactivity.
 
-Currently, two official plugins are available:
+Designed to be a better Youtube Feed with just the new videos of channels you follow, grouped by category that were assigned to the channel.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Use
 
-## Expanding the ESLint configuration
+To be used with the [zenful_day](https://github.com/chickiexd/zenful_day) backend, which provides the necessary API endpoints for fetching and managing YouTube videos.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+
+- Display YouTube videos grouped by category.
+- Mark individual groups or all videos as "seen".
+- Sync videos from server 
+
+## Tech Stack
+
+- React
+- Redux Toolkit
+- TypeScript
+- Material-UI (MUI)
+
