@@ -1,17 +1,24 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import VideoGroup from "./VideoGroup";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Video } from "@/features/Youtube/types";
-import { markVideoAsSeen, syncYoutubeFeed } from "@/features/Youtube/api";
+import {
+  fetchYoutubeFeed,
+  markVideoAsSeen,
+  syncYoutubeFeed,
+} from "@/features/Youtube/api";
 import { useAppDispatch } from "@/hooks";
+import { Button, CircularProgress } from "@mui/material";
 
 export default function Youtubefeed() {
   const videos = useSelector((state: RootState) => state.youtube.videos);
   const dispatch = useAppDispatch();
 
+  const [syncing, setSyncing] = useState(false);
+
   const groupedVideos = useMemo(() => {
-    return videos.reduce<Record<string, Video[]>>((groups, video) => {
+    return videos.reduce<Record<string, typeof videos>>((groups, video) => {
       const groupName = video.group;
       if (!groups[groupName]) {
         groups[groupName] = [];
@@ -20,6 +27,17 @@ export default function Youtubefeed() {
       return groups;
     }, {});
   }, [videos]);
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      await dispatch(syncYoutubeFeed()).unwrap();
+      await dispatch(fetchYoutubeFeed()).unwrap();
+    } catch (error) {
+      alert("Failed to sync videos. Please try again.");
+    }
+    setSyncing(false);
+  };
 
   const handleMarkGroupAsSeen = async (group: string) => {
     const groupVideos = groupedVideos[group];
@@ -57,17 +75,6 @@ export default function Youtubefeed() {
       alert("Failed to mark all videos as seen. Please try again.");
     }
   };
-
-  const handleSync = async () => {
-    try {
-      await dispatch(syncYoutubeFeed()).unwrap();
-      console.log("Sync complete");
-    } catch (error) {
-      console.error("Sync failed", error);
-      alert("Failed to sync videos. Please try again.");
-    }
-  };
-
   return (
     <main
       style={{
@@ -89,23 +96,37 @@ export default function Youtubefeed() {
         <h1 style={{ fontSize: 36, fontWeight: "700", margin: 0 }}>
           YouTube Feed
         </h1>
-        <button
+
+        {/* MUI Button with spinner */}
+        <Button
+          variant="contained"
           onClick={handleSync}
-          style={{
+          disabled={syncing}
+          sx={{
             backgroundColor: "#959ca4",
             color: "white",
-            border: "none",
-            borderRadius: 6,
-            padding: "10px 18px",
-            fontSize: 16,
             fontWeight: "bold",
-            userSelect: "none",
-            transition: "background-color 0.3s ease",
+            fontSize: 16,
+            borderRadius: 1,
+            textTransform: "none",
+            minWidth: 120,
+            "&:hover": {
+              backgroundColor: "#7a8289",
+            },
           }}
-          title="Sync videos from server"
         >
-          Sync Videos
-        </button>
+          {syncing ? (
+            <>
+              Syncing...
+              <CircularProgress
+                size={18}
+                sx={{ color: "white", marginLeft: 1 }}
+              />
+            </>
+          ) : (
+            "Sync Videos"
+          )}
+        </Button>
         <button
           onClick={handleMarkAllAsSeen}
           disabled={videos.length === 0}
