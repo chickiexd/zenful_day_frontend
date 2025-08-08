@@ -4,7 +4,7 @@ services:
     container_name: zenful_day_frontend
     networks:
       - nginx_net
-      - zenful_shopping
+      - zenful_day
       - tunnel
 
 networks:
@@ -12,5 +12,5 @@ networks:
     external: true
   tunnel:
     external: true
-  zenful_shopping:
+  zenful_day:
     external: true
