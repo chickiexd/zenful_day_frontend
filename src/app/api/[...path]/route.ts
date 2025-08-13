@@ -8,6 +8,7 @@ async function handler(request: NextRequest, { params }: { params: Promise<{ pat
   const path = await params.then(x => x.path.join('/'))
 
   const url = new URL(`${path}`, GO_API_URL)
+  console.log('Proxying request to:', url.toString())
   request.nextUrl.searchParams.forEach((value, key) => {
     url.searchParams.append(key, value)
   })
