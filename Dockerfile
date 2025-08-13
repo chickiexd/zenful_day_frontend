@@ -1,47 +1,42 @@
 # ----------------
-# 1. Builder stage
+# 1) Install deps
 # ----------------
-FROM node:18-alpine AS builder
+FROM node:18-alpine AS deps
 WORKDIR /app
-
-# Accept build-time secrets (from compose build args)
-ARG BETTER_AUTH_SECRET
-ARG BETTER_AUTH_URL
-ARG DATABASE_URL
-ARG GO_API_URL
-ARG NEXT_PUBLIC_GO_API_URL
-
-# Install deps (better caching)
 COPY package*.json ./
 RUN npm ci
 
-# Copy source
+# ----------------
+# 2) Build (standalone)
+# ----------------
+FROM node:18-alpine AS builder
+WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
+
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Must have `output: 'standalone'` in next.config.(js|ts)
 RUN npm run build
 
 # ----------------
-# 2. Production stage
+# 3) Runtime (minimal)
 # ----------------
 FROM node:18-alpine AS runner
 WORKDIR /app
-
-# Disable telemetry
+ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Install only production deps
-COPY package*.json ./
-RUN npm ci --only=production
+# Copy the minimal standalone server produced by Next
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+# Remove this line if your repo has no /public folder
+COPY --from=builder /app/public ./public
 
-# Copy build output
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/next.config.js ./
-# Only copy public if your repo actually has it. Remove for now to avoid build failure.
-# COPY --from=builder /app/public ./public
+# Optional: run as non-root (uncomment if desired)
+# RUN addgroup -g 1001 nodejs && adduser -S -u 1001 nextjs
+# USER nextjs
 
-# Expose port 3000
 EXPOSE 3000
-
-# Start Next.js
-CMD ["npm", "start"]
-
+ENV PORT=3000
+CMD ["node", "server.js"]
