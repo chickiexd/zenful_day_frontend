@@ -31,7 +31,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 # Remove this line if your repo has no /public folder
-COPY --from=builder /app/public ./public
+# COPY --from=builder /app/public ./public
 
 # Optional: run as non-root (uncomment if desired)
 # RUN addgroup -g 1001 nodejs && adduser -S -u 1001 nextjs
