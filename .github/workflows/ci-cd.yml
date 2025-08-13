@@ -19,6 +19,8 @@ jobs:
           BETTER_AUTH_URL=${{ secrets.BETTER_AUTH_URL }}
           DATABASE_URL=${{ secrets.DATABASE_URL }}
           GO_API_URL=${{ secrets.GO_API_URL }}
+          NEXT_PUBLIC_GO_API_URL=${{ secrets.NEXT_PUBLIC_GO_API_URL }}
+          NEXT_PUBLIC_BETTER_AUTH_URL=${{ secrets.NEXT_PUBLIC_BETTER_AUTH_URL }}
           EOF
       - name: Create .env file
         run: |
@@ -27,6 +29,8 @@ jobs:
           BETTER_AUTH_URL=${{ secrets.BETTER_AUTH_URL }}
           DATABASE_URL=${{ secrets.DATABASE_URL }}
           GO_API_URL=${{ secrets.GO_API_URL }}
+          NEXT_PUBLIC_GO_API_URL=${{ secrets.NEXT_PUBLIC_GO_API_URL }}
+          NEXT_PUBLIC_BETTER_AUTH_URL=${{ secrets.NEXT_PUBLIC_BETTER_AUTH_URL }}
           EOF
       - name: Deploy with Docker Compose
         run: |

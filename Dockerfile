@@ -9,6 +9,7 @@ ARG BETTER_AUTH_SECRET
 ARG BETTER_AUTH_URL
 ARG DATABASE_URL
 ARG GO_API_URL
+ARG NEXT_PUBLIC_GO_API_URL
 
 # Install deps (better caching)
 COPY package*.json ./
