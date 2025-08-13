@@ -7,6 +7,7 @@ services:
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
       - BETTER_AUTH_URL=${BETTER_AUTH_URL}
       - DATABASE_URL=${DATABASE_URL}
+      - GO_API_URL=${GO_API_URL}
     networks:
       - nginx_net
       - zenful_day_prod
