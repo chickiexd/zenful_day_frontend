@@ -2,6 +2,11 @@ services:
   zenful_day_frontend:
     build: .
     container_name: zenful_day_frontend
+    environment:
+      NODE_ENV: production
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+      DATABASE_URL: ${DATABASE_URL}
     networks:
       - nginx_net
       - zenful_day_prod
@@ -14,3 +19,4 @@ networks:
     external: true
   zenful_day_prod:
     external: true
+
