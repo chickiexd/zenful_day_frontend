@@ -1,10 +1,10 @@
 services:
-  zenful_shopping_frontend:
+  zenful_day_frontend:
     build: .
     container_name: zenful_day_frontend
     networks:
       - nginx_net
-      - zenful_day
+      - zenful_day_prod
       - tunnel
 
 networks:
@@ -12,5 +12,5 @@ networks:
     external: true
   tunnel:
     external: true
-  zenful_day:
+  zenful_day_prod:
     external: true
