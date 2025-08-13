@@ -11,12 +11,7 @@ export default function TestPage() {
   const [authMessage, setAuthMessage] = useState("");
 
   const testGoAPI = async () => {
-    const new_channel = {
-      channel_id: "UCGGZ_POGmIWG1pQXTDzQv-g",
-      channel_name: "Michel Khare",
-      channel_group_id: "5",
-    };
-    const response = await apiClient.post("youtube/channel", new_channel);
+    const response = await apiClient.get("youtube/channel_groups");
     console.log("API Response:", response);
   };
 
