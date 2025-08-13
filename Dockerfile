@@ -35,6 +35,7 @@ RUN npm ci --only=production
 
 # Copy build output
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/next.config.js ./
 # Only copy public if your repo actually has it. Remove for now to avoid build failure.
 # COPY --from=builder /app/public ./public
 
