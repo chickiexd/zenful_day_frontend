@@ -8,6 +8,8 @@ services:
       - BETTER_AUTH_URL=${BETTER_AUTH_URL}
       - DATABASE_URL=${DATABASE_URL}
       - GO_API_URL=${GO_API_URL}
+    ports:
+      - "3333:3000"
     networks:
       - nginx_net
       - zenful_day_prod
