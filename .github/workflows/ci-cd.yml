@@ -12,8 +12,14 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+      - name: Create .env file
+        run: |
+          cat > .env << EOF
+          BETTER_AUTH_SECRET=${{ secrets.BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL=${{ secrets.BETTER_AUTH_URL }}
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          EOF
       - name: Deploy with Docker Compose
         run: |
           docker compose down || true
           docker compose up -d --build
-
